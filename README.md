@@ -16,21 +16,15 @@ This document introduces search-contempt, a hybrid version of MCTS, and attempts
 
 [Alphago zero](https://scispace.com/pdf/mastering-the-game-of-go-without-human-knowledge-19y9mw638s.pdf) introduced the concept of lookahead search inside the Reinforcement Learning Training Loop. It uses an MCTS search on each position encountered during selfplay. Each MCTS search begins with the root node and grows the search tree by one node with every visit. The path taken along the search tree to add a node is decided by a variant of the [PUCT algorithm](https://www.chrisrosin.com/isaim2010final.pdf). Here, $` N(s,a) `$ represents the total number of visits along a certain node, $` s `$ of the tree, after taking action $` a `$. $` Q(s,a) `$ represents the average value of all the leaf nodes that were reached that involved taking action a from state s at some point in its path. The equations for the path to take along the tree is reproduced below for clarity. 
 
-$` U(s,a) = c_{puct} P(s,a) \frac {\sqrt{\sum_{b} N(s,b)}} {1 + N(s,a)} \tag 1 `$
+$` U(s,a) = c_{puct} P(s,a) \frac {\sqrt{\sum_{b} N(s,b)}} {1 + N(s,a)}\ \ \ \ \ \ (1) `$
 
-\begin{equation}
-Q(s,a) = \frac {1} {N(s,a)} \sum_{s'|s,a->s'} V(s')
-\end{equation}
+$` Q(s,a) = \frac {1} {N(s,a)} \sum_{s'|s,a->s'} V(s') \ \ \ \ \ \ \ (2) `$
 
-\begin{equation}
-a= \underset{b}{\mathrm{argmax}} (Q(s,b) + U(s,b))
-\end{equation}
+$` a= \underset{b}{\mathrm{argmax}} (Q(s,b) + U(s,b)) \ \ \ \ \ \ (3) `$
 
 Once the required number of visits are complete. A policy $` \pi(a|s_0) `$ determines which move to play. This is given by
 
-\begin{equation}
-\pi(a|s_0)=\frac {N(s_0,a)^{1/\tau}} {\sum_b N(s_0,b)^{1/\tau}}
-\end{equation}
+$` \pi(a|s_0)=\frac {N(s_0,a)^{1/\tau}} {\sum_b N(s_0,b)^{1/\tau}} \ \ \ \ \ \ (4) `$
 
 The variable $` \tau `$, which does not affect the MCTS search, does affect considerably the trajectory of the positions encountered during a game of selfplay. Alphago zero used a low value of $` \tau `$, ie $` \tau_{1} `$ (which results in the best move always being played) to measure the current strength of the engine. However this produces very high quality games with a lot of draws as is expected from strong engines. This is not ideal for training data. To generate variety in training games, the authors choose a high value of $` \tau `$, ie $` \tau_2 `$, which selects with high probability even moves that may not be the best but are good for exploration. This does however weaken the level of play of training games.
 
@@ -44,9 +38,7 @@ A mathematical description of this algorithm follows. All notations and paramete
 
 $`N_{scl}(s,a)`$ is defined in terms of $` N_{scl} `$ as follows
 
-\begin{equation}
-N_{scl}(s,a) = N(s,a), when, \sum_{b} N(s,b) = N_{scl}
-\end{equation}
+$` N_{scl}(s,a) = N(s,a), when, \sum_{b} N(s,b) = N_{scl} \ \ \ \ \ \ (5) `$
 
 Using the above definition of $`N_{scl}(s,a)`$, $` P_{mcts}(s,a) `$ can be expressed as follows ,
 
