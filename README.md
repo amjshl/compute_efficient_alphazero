@@ -16,9 +16,7 @@ This document introduces search-contempt, a hybrid version of MCTS, and attempts
 
 [Alphago zero](https://scispace.com/pdf/mastering-the-game-of-go-without-human-knowledge-19y9mw638s.pdf) introduced the concept of lookahead search inside the Reinforcement Learning Training Loop. It uses an MCTS search on each position encountered during selfplay. Each MCTS search begins with the root node and grows the search tree by one node with every visit. The path taken along the search tree to add a node is decided by a variant of the [PUCT algorithm](https://www.chrisrosin.com/isaim2010final.pdf). Here, $` N(s,a) `$ represents the total number of visits along a certain node, $` s `$ of the tree, after taking action $` a `$. $` Q(s,a) `$ represents the average value of all the leaf nodes that were reached that involved taking action a from state s at some point in its path. The equations for the path to take along the tree is reproduced below for clarity. 
 
-\begin{equation}
-U(s,a) = c_{puct} P(s,a) \frac {\sqrt{\sum_{b} N(s,b)}} {1 + N(s,a)}
-\end{equation}
+$` U(s,a) = c_{puct} P(s,a) \frac {\sqrt{\sum_{b} N(s,b)}} {1 + N(s,a)} \tag 1 `$
 
 \begin{equation}
 Q(s,a) = \frac {1} {N(s,a)} \sum_{s'|s,a->s'} V(s')
