@@ -45,13 +45,12 @@ Using the above definition of $`N_{scl}(s,a)`$, $` P_{mcts}(s,a) `$ can be expre
 
 If $` d_{s}mod2 = 0  `$ or $` \sum_{b} N(s,b) <= N_{scl} `$
 
-\begin{equation}
-P_{mcts}(s,a)=
+$` P_{mcts}(s,a)=
     \begin{cases}
         1 & \text{if } a= \underset{b}{\mathrm{argmax}} (Q(s,b) + U(s,b))\\
         0 & \text{if } a \neq \underset{b}{\mathrm{argmax}} (Q(s,b) + U(s,b))
     \end{cases}
-\end{equation}
+\end{equation} \ \ \ \ \ \ (6)`$
 
 If $` d_{s}mod2 = 1  `$ and $` \sum_{b} N(s,b) > N_{scl} `$ 
 
